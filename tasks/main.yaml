@@ -18,11 +18,16 @@
     - name: configure ldapacl file
       copy: dest=/etc/squid/conf.d/10.ldapacl.conf src=files/10.ldapacl.conf owner=root group=squid mode=0644
 
+#    - name: configure list files
+#      copy: dest=/etc/squid/lists/{{ item }} src=files/{{ item }}
+#      with_items:
+#        - list1.list
+#        - list2.list
+#
     - name: configure list files
-      copy: dest=/etc/squid/lists/{{ item }} src=files/{{ item }}
-      with_items:
-        - list1.list
-        - list2.list
+      copy: src={{ item }} dest=/etc/squid/lists/  owner=root group=squid mode=0644
+      with_fileglob:
+        - files/*.list
 
     - name: disable dansguardian
       shell:  chkconfig dansguardian off
