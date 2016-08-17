@@ -1,0 +1,4 @@
+---
+    ldaphost: ldap.example.com
+    customerou: ou=customer1,dc=example,dc=com
+    disable_antivirus: false
