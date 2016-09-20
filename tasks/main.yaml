@@ -4,6 +4,14 @@
       notify: 
       - restart_squid
 
+    - name: replace a customized logo and error page
+      copy: src={{ item.src }} dest=/usr/share/squid/{{ item.dest }} owner=root group=root mode=0644
+      with_items:
+      - { src: SN.png, dest: icons/SN.png }
+      - { src: ERR_ACCESS_DENIED, dest: errors/ERR_ACCESS_DENIED }
+      notify:
+      - restart_squid
+
     - name: configure /etc/squid/conf.d directory
       file: path=/etc/squid/conf.d state=directory mode=0755 owner=root group=squid
       notify: 
