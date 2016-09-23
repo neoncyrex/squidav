@@ -1,0 +1,33 @@
+
+<html><head>
+<meta type="copyright" content="Copyright (C) 1996-2016 The Squid Software Foundation and contributors">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>ERROR: The requested URL could not be retrieved</title>
+<style type="text/css"><!--
+ %l
+
+body
+:lang(fa) { direction: rtl; font-size: 100%; font-family: Tahoma, Roya, sans-serif; float: right; }
+:lang(he) { direction: rtl; }
+ --></style>
+</head><body id="%c">
+<div id="titles">
+<h1>Ошибка</h1>
+<h2>Доступ не может быть предоставлен</h2>
+</div>
+<hr>
+
+<div id="content">
+<p>Произошла ошибка доступа при открытии URL: <a href="%U">%U</a></p>
+
+<blockquote id="error">
+<p><b>Просмотр этого сайта запрещен в соответствии с политиками доступа компании.</b></p>
+</blockquote>
+
+<br>
+</div>
+
+<hr>
+<div id="footer">
+</div>
+</body></html>
