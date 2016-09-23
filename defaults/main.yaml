@@ -5,3 +5,8 @@
     enable_antivirus: false
     add_ldapacl: false
     remove_ldapacl: false
+  
+    # This url can be modified to provide suitable icon 
+    # during the access denied messages 
+    # by default it contains an image saved internally
+    url_error_img: /squid-internal-static/SN.png

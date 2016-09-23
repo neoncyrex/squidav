@@ -12,6 +12,11 @@
       notify:
       - restart_squid
 
+    - name: replace updated css styles for error pages
+      template: src=errorpage.css.j2 dest=/etc/squid/errorpage.css owner=root group=root mode=0644
+      notify:
+      - restart_squid
+
     - name: configure /etc/squid/conf.d directory
       file: path=/etc/squid/conf.d state=directory mode=0755 owner=root group=squid
       notify: 
