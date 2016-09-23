@@ -8,7 +8,7 @@
       copy: src={{ item.src }} dest=/usr/share/squid/{{ item.dest }} owner=root group=root mode=0644
       with_items:
       - { src: SN.png, dest: icons/SN.png }
-      - { src: ERR_ACCESS_DENIED, dest: errors/ERR_ACCESS_DENIED }
+      - { src: ERR_ACCESS_DENIED, dest: errors/en/ERR_ACCESS_DENIED }
       notify:
       - restart_squid
 
