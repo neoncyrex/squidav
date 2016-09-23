@@ -15,7 +15,9 @@ The role configures squid to deliver catagory filtering and antivirus protection
     ldaphost: ldap.example.com
     customerou: ou=customer1,dc=example,dc=com
     disable_antivirus: false
+    url_error_img: /squid-internal-static/icons/SN.png  (url scheme http(s)/ftp(s)/... also supported)
 
+Note: modified option url_error_img sometimes maybe not shown by unknown reasons.
 
 ## Installation (CentOS 7.x or RHEL 7.x)
 ```
