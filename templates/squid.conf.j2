@@ -22,8 +22,11 @@ acl Safe_ports port 280         # http-mgmt
 acl Safe_ports port 488         # gss-http
 acl Safe_ports port 591         # filemaker
 acl Safe_ports port 777         # multiling http
-acl Safe_ports urlpath_regex ^/squid-internal-static/ # icon that shown on denied pages ;)
-acl Safe_ports url_regex {{ url_error_img }} # URL to denied page's icon
+{% if url_error_img == url_error_img_default %}
+acl Safe_urls urlpath_regex {{ url_error_img_default }} # icon that shown on denied pages ;)
+{% else %}
+acl Safe_urls url_regex {{ url_error_img }} # URL to denied page's icon
+{% endif %}
 acl CONNECT method CONNECT
 
 # Basic Ldap Configuration
@@ -44,6 +47,9 @@ http_access deny !ldap-auth
 #
 # Deny requests to certain unsafe ports
 http_access deny !Safe_ports
+
+# Allow urls that used to shown the icons on error pages
+http_access allow !Safe_urls
 
 # Deny CONNECT to other than secure SSL ports
 http_access deny CONNECT !SSL_ports
@@ -69,6 +75,7 @@ include /etc/squid/conf.d/*.conf
 # from where browsing should be allowed
 http_access allow localnet
 http_access allow localhost
+
 
 # And finally deny all other access to this proxy
 http_access deny all
