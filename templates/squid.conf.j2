@@ -45,11 +45,12 @@ http_access deny !ldap-auth
 #
 # Recommended minimum Access Permission configuration:
 #
+# Allow urls that used to shown the icons on error pages
+http_access allow Safe_urls
+
 # Deny requests to certain unsafe ports
 http_access deny !Safe_ports
 
-# Allow urls that used to shown the icons on error pages
-http_access allow !Safe_urls
 
 # Deny CONNECT to other than secure SSL ports
 http_access deny CONNECT !SSL_ports

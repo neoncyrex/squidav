@@ -9,5 +9,5 @@
     # This url can be modified to provide suitable icon 
     # during the access denied messages 
     # by default it contains an image saved internally
-    url_error_img: 
+    url_error_img: /squid-internal-static/SN.png
     url_error_img_default: /squid-internal-static/SN.png
