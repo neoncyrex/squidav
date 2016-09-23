@@ -23,9 +23,9 @@ acl Safe_ports port 488         # gss-http
 acl Safe_ports port 591         # filemaker
 acl Safe_ports port 777         # multiling http
 {% if url_error_img == url_error_img_default %}
-acl Safe_urls urlpath_regex {{ url_error_img_default }} # icon that shown on denied pages ;)
+acl Safe_urls urlpath_regex ^{{ url_error_img_default }} # icon that shown on denied pages ;)
 {% else %}
-acl Safe_urls url_regex {{ url_error_img }} # URL to denied page's icon
+acl Safe_urls url_regex ^{{ url_error_img }}$ # URL to denied page's icon
 {% endif %}
 acl CONNECT method CONNECT
 
