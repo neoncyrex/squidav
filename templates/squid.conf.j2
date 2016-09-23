@@ -22,6 +22,8 @@ acl Safe_ports port 280         # http-mgmt
 acl Safe_ports port 488         # gss-http
 acl Safe_ports port 591         # filemaker
 acl Safe_ports port 777         # multiling http
+acl Safe_ports urlpath_regex ^/squid-internal-static/ # icon that shown on denied pages ;)
+acl Safe_ports url_regex {{ url_error_img }} # URL to denied page's icon
 acl CONNECT method CONNECT
 
 # Basic Ldap Configuration
