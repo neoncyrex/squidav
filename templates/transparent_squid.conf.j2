@@ -23,35 +23,26 @@ acl Safe_ports port 280         # http-mgmt
 acl Safe_ports port 488         # gss-http
 acl Safe_ports port 591         # filemaker
 acl Safe_ports port 777         # multiling http
-{% if url_error_img == url_error_img_default %}
-acl Safe_urls urlpath_regex ^{{ url_error_img_default }} # icon that shown on denied pages ;)
-{% else %}
-acl Safe_urls url_regex ^{{ url_error_img }}$ # URL to denied page's icon
-{% endif %}
 acl CONNECT method CONNECT
 dns_nameservers 8.8.8.8
 # Basic Ldap Configuration
-auth_param basic program  /usr/lib64/squid/basic_ldap_auth -b {{ customerou }} -h  {{ ldaphost }}
-auth_param basic children 10
-auth_param basic realm Web-Proxy
-auth_param basic credentialsttl 1 minute
+#auth_param basic program  /usr/lib64/squid/basic_ldap_auth -b {{ customerou }} -h  {{ ldaphost }}
+#auth_param basic children 10
+#auth_param basic realm Web-Proxy
+#auth_param basic credentialsttl 1 minute
 
 # Ldap groups analysys
-external_acl_type ldap_users %LOGIN /usr/lib64/squid/ext_ldap_group_acl  -b {{ customerou }} -h {{ ldaphost }}   -f "(&(objectclass=groupOfUniqueNames)(cn=%a)(uniqueMember=uid=%v,{{ customerou }}))"
+#external_acl_type ldap_users %LOGIN /usr/lib64/squid/ext_ldap_group_acl  -b {{ customerou }} -h {{ ldaphost }}   -f "(&(objectclass=groupOfUniqueNames)(cn=%a)(uniqueMember=uid=%v,{{ customerou }}))"
 
 # Deny acces for all non authorized users
-acl ldap-auth proxy_auth REQUIRED
-http_access deny !ldap-auth
+#acl ldap-auth proxy_auth REQUIRED
+#http_access deny !ldap-auth
 
 #
 # Recommended minimum Access Permission configuration:
 #
-# Allow urls that used to shown the icons on error pages
-http_access allow Safe_urls
-
 # Deny requests to certain unsafe ports
 http_access deny !Safe_ports
-
 
 # Deny CONNECT to other than secure SSL ports
 http_access deny CONNECT !SSL_ports
@@ -78,13 +69,8 @@ include /etc/squid/conf.d/*.conf
 http_access allow localnet
 http_access allow localhost
 
-
 # And finally deny all other access to this proxy
 http_access deny all
-
-# Place here customized error pages in case of access denied
-deny_info 403:ERR_ACCESS_DENIED all
-deny_info 404:ERR_ACCESS_DENIED all
 
 # Squid normally listens to port 3128
 http_port 3128

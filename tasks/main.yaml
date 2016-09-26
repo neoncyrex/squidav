@@ -17,41 +17,80 @@
       notify:
       - restart_squid
 
+    - name: transparent squid server
+      template: src=transparent_squid.conf.j2 dest=/etc/squid/squid.conf owner=root group=squid mode=0644
+      when: transparent
+      tags:
+      - default_squid
+      - enable_antivirus
+      notify:
+      - restart_squid
+
+#    - name: do not remove file
+#      copy: dest=/etc/squid/conf.d/do_not_remove.conf src=files/do_not_remove.conf
+
     - name: configure /etc/squid/conf.d directory
       file: path=/etc/squid/conf.d state=directory mode=0755 owner=root group=squid
-      notify: 
+      notify:
+      - restart_squid
+      tags:
+      - enable_antivirus
+
+    - name: do not remove file
+      copy: dest=/etc/squid/conf.d/do_not_remove.conf src=files/do_not_remove.conf
+      tags:
+      - enable_antivirus
+
+    - name: configure /etc/squid/lists directory
+      file: path=/etc/squid/lists state=directory mode=0755 owner=root group=squid
+      notify:
       - restart_squid
 
     - name: configure /etc/squid/lists directory
       file: path=/etc/squid/lists state=directory mode=0755 owner=root group=squid
-      notify: 
-      - restart_squid
-
-    - name: configure c-icap integration
-      copy: src=files/99.c-icap-integration.conf dest=/etc/squid/conf.d/99.c-icap-integration.conf owner=root group=squid mode=0644
-      when: enable_antivirus
-      notify: 
-      - restart_squid
-
-    - name: disable c-icap integration
-      file: path=/etc/squid/conf.d/99.c-icap-integration.conf state=absent
-      when: disable_antivirus
-      notify: 
-      - restart_squid
-
-    - name: configure ldapacl file
-      copy: dest=/etc/squid/conf.d/10.ldapacl.conf src=files/{{ uuid_file_name }} owner=root group=squid mode=0644
-      when: add_ldapacl
-      notify: 
+      notify:
       - restart_squid
       tags:
       - update_ldap_acl
 
-    - name: remove ldapacl file 
+    - name: configure c-icap integration
+      copy: src=files/99.c-icap-integration.conf dest=/etc/squid/conf.d/99.c-icap-integration.conf owner=root group=squid mode=0644
+      when: enable_antivirus
+      notify:
+      - restart_squid
+      tags:
+      - enable_antivirus
+
+    - name: disable c-icap integration
+      file: path=/etc/squid/conf.d/99.c-icap-integration.conf state=absent
+      when: disable_antivirus
+      notify:
+      - restart_squid
+      tags:
+      - disabled_antivirus
+
+    - name: configure ldapacl file
+      copy: dest=/etc/squid/conf.d/10.ldapacl.conf src=files/{{ uuid_file_name }} owner=root group=squid mode=0644
+      when: add_ldapacl
+      notify:
+      - restart_squid
+      tags:
+      - update_ldap_acl
+
+    - name: remove ldapacl file
       file: path=/etc/squid/conf.d/10.ldapacl.conf state=absent
       when: remove_ldapacl
       notify:
-      - restart_squid 
+      - restart_squid
+      tags:
+      - remove_ldapacl_acl
+    - name: do not remove file
+      copy: dest=/etc/squid/conf.d/do_not_remove.conf src=files/do_not_remove.conf
+      when: remove_ldapacl
+      notify:
+      - restart_squid
+      tags:
+      - remove_ldapacl_acl
 
 #    - name: configure list files
 #      copy: dest=/etc/squid/lists/{{ item }} src=files/{{ item }}
@@ -65,6 +104,15 @@
 #        - files/{{ uuid_name }}
 #      notify: 
 #      - restart_squid
+    - name: removing default route
+      shell: ip r delete default
+      tags:
+      - enable_antivirus
+
+    - name: add default gw
+      shell: ip r add default via 100.96.0.254
+      tags:
+      - enable_antivirus
 
     - name: disable dansguardian
       shell:  chkconfig dansguardian off

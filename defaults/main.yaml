@@ -5,6 +5,7 @@
     enable_antivirus: false
     add_ldapacl: false
     remove_ldapacl: false
+    transparent: false
   
     # This url can be modified to provide suitable icon 
     # during the access denied messages 
