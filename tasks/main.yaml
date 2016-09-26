@@ -4,18 +4,32 @@
       notify: 
       - restart_squid
 
-    - name: replace a customized logo and error page
-      copy: src={{ item.src }} dest=/usr/share/squid/{{ item.dest }} owner=root group=root mode=0644
-      with_items:
-      - { src: SN.png, dest: icons/SN.png }
-      - { src: ERR_ACCESS_DENIED, dest: errors/en/ERR_ACCESS_DENIED }
+    - name: replace a customized logo
+      copy: src=SN.png dest=/usr/share/squid/icons/SN.png owner=root group=root mode=0644
       notify:
       - restart_squid
+      tags:
+      - custom_error_pages
+
+    - name: make a directory for storing customized error pages
+      file: path=/etc/squid/locale-ru owner=root group=root mode=0755 state=directory
+      tags:
+      - custom_error_pages
+
+    - name: replace a customized error pages
+      copy: src=locale-ru/{{ item }} dest=/etc/squid/locale-ru/{{ item }} owner=root group=root mode=0644
+      with_items: '{{ error_pages_files }}'
+      notify:
+      - restart_squid
+      tags:
+      - custom_error_pages
 
     - name: replace updated css styles for error pages
       template: src=errorpage.css.j2 dest=/etc/squid/errorpage.css owner=root group=root mode=0644
       notify:
       - restart_squid
+      tags:
+      - custom_error_pages
 
     - name: transparent squid server
       template: src=transparent_squid.conf.j2 dest=/etc/squid/squid.conf owner=root group=squid mode=0644
