@@ -16,6 +16,13 @@
       tags:
       - custom_error_pages
 
+    - name: change the redirection url for antivirus
+      lineinfile: dest=/etc/squidclamav.conf regexp='http://localhost/cgi-bin/clwarn.cgi' line='http://100.96.0.4/cgi-bin/clwarn.cgi'
+      tags:
+      - enable_antivirus
+      - default_squid
+      - custom_error_pages
+
     - name: replace a customized error pages
       copy: src=locale-ru/{{ item }} dest=/etc/squid/locale-ru/{{ item }} owner=root group=root mode=0644
       with_items: '{{ error_pages_files }}'
