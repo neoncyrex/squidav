@@ -29,7 +29,7 @@ acl Safe_urls urlpath_regex ^{{ url_error_img_default }} # icon that shown on de
 acl Safe_urls url_regex ^{{ url_error_img }}$ # URL to denied page's icon
 {% endif %}
 acl CONNECT method CONNECT
-dns_nameservers 8.8.8.8
+dns_nameservers 194.67.2.114 194.67.1.154
 # Basic Ldap Configuration
 auth_param basic program  /usr/lib64/squid/basic_ldap_auth -b {{ customerou }} -h  {{ ldaphost }}
 auth_param basic children 10
@@ -102,6 +102,4 @@ refresh_pattern ^ftp:           1440    20%     10080
 refresh_pattern ^gopher:        1440    0%      1440
 refresh_pattern -i (/cgi-bin/|\?) 0     0%      0
 refresh_pattern .               0       20%     4320
-
-
 
